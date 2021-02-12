@@ -1,7 +1,10 @@
 <?php
 require 'template.php';
-require 'Controller.php'
+include 'Controller.php'
 ?>
 <body>
+<div class="nodes">
 <button id="root">Create Root</button>
 </body>
+</div>
+</html>
