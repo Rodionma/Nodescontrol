@@ -1,4 +1,7 @@
 <?php
+
+require "template.php";
+
 spl_autoload_register(function ($class_name) {
     include 'Classes/'.$class_name . '.php';
 });
@@ -8,11 +11,11 @@ spl_autoload_register(function ($class_name) {
  *
  *
  */
-$link = mysqli_connect('Nodes', 'root', 'root');
-if (!$link) {
+$mysqli = new mysqli('localhost', 'root', 'root','nodes');
+if (!$mysqli) {
     die('Connection error: ' . mysqli_error());
 }
-
+$nodes=array();
 
 /*
  *
@@ -29,22 +32,54 @@ if(isset($_GET['action'])) {
             add();
             break;
         case 'delete':
+            delete();
             break;
     }
 }
 
+function getall(){
+    global $nodes;
+    global $mysqli;
+    $result=$mysqli->query("SELECT * FROM nodes");
+ foreach ($result->fetch_assoc() as $res){
+
+ }
+
+
+ }
+
+function allchildren($id){
+
+}
+
 function createroot(){
-    $node=new Node("root");
-    $node->saveData();?>
+    global $mysqli;
+    $node=new Node();
+    $node->set('root',0);
+    $node->saveData($mysqli);?>
     <h2><?echo $node->text;?></h2>
-    <button id="add">+</button>
-    <button id="remove">-</button>
+    <button id="add" value="<?$node->getParentId()?>" class="add">+</button>
+    <button id="remove" class="btn btn-danger">-</button>
  <?
 }
 
-function add(){
-    $node=new Node("root");
-    $node->saveData();?>
+function addform(){
+   ?>
 
-    <?
+
+<?php
+}
+
+function add(){
+
+    $text='sample';
+
+    $parrent=$_GET['parent_id'];
+$node=new Node();
+$node->set($text,$parrent);
+global $mysqli;
+$node->saveData($mysqli);
+?>
+
+<?php
 }
