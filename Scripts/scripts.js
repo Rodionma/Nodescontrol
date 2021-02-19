@@ -19,15 +19,37 @@ $(document).ready(function () {//creating root
 
 
 
-$(document).ready(function () {
+$(document).ready(function () {//adding new node
     $('.add').on('click',function (){
-        alert(1);
+
         $.ajax({
             url: "../Controller.php",
             type:"GET",
             data:{
                 action:'add',
                 parent_id:$(this).val()
+            },
+            success: function(result){
+                $('.nodes').html(result);
+            },
+            error:function () {
+                alert('Error');
+            }
+        });
+    });
+})
+
+
+
+$(document).ready(function () {//deleting node
+    $('.remove').on('click',function (){
+
+        $.ajax({
+            url: "../Controller.php",
+            type:"GET",
+            data:{
+                action:'delete',
+                id:$(this).val()
             },
             success: function(result){
                 $('.nodes').html(result);

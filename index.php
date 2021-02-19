@@ -4,7 +4,8 @@ include 'Controller.php'
 ?>
 <body>
 <div class="nodes">
-<button id="root" class="btn btn-primary">Create Root</button>
+    <?getall();?>
+
 </body>
 </div>
 </html>

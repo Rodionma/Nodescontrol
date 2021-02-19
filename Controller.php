@@ -37,18 +37,48 @@ if(isset($_GET['action'])) {
     }
 }
 
+
+
+
 function getall(){
     global $nodes;
     global $mysqli;
-    $result=$mysqli->query("SELECT * FROM nodes");
- foreach ($result->fetch_assoc() as $res){
+    $result=$mysqli->query("SELECT * FROM nodes ORDER BY parent_id ASC");
+    if ($result->rowCount()===0){
+        echo '<button id="root" class="btn btn-primary">Create Root</button>';
+    }
+    else{
+ while ($new=$result->fetch_assoc()) {
+     $current_node = new Node();
+     $current_node->setwithid($new['text'], $new['parent_id'], $new['id']);
+     $nodes[] = $current_node;
+ }
+ }
+
+foreach ($nodes as $el){
+    if($el->getParentId()==0){
+    $el->getallData();
+
+
+    allchildren($el->getId());
+    unset($el);
+    }
+}
 
  }
 
+function allchildren($parrentid){
+    global $nodes;
+   foreach ($nodes as $res)
 
- }
+   if($parrentid==$res->getParentId()) {
+       echo '<div style="margin-left: 40px; position:relative" >';
+       $res->getallData();
 
-function allchildren($id){
+       allchildren($res->getID());
+       echo '</div>';
+       unset($res);
+   }
 
 }
 
@@ -56,30 +86,29 @@ function createroot(){
     global $mysqli;
     $node=new Node();
     $node->set('root',0);
-    $node->saveData($mysqli);?>
-    <h2><?echo $node->text;?></h2>
-    <button id="add" value="<?$node->getParentId()?>" class="add">+</button>
-    <button id="remove" class="btn btn-danger">-</button>
- <?
+
+    $node->saveData($mysqli);
+    getall();
 }
 
-function addform(){
-   ?>
 
 
-<?php
-}
 
 function add(){
 
     $text='sample';
 
     $parrent=$_GET['parent_id'];
+    global $mysqli;
 $node=new Node();
 $node->set($text,$parrent);
-global $mysqli;
 $node->saveData($mysqli);
-?>
+getall();
+}
 
-<?php
+function delete(){
+    global $nodes;
+    $id=$_GET['id'];
+
+
 }
