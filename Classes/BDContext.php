@@ -3,7 +3,7 @@
 
 interface BDContext
 {
- public function getallData();
- public function saveData(mysqli $mysqli);
+ public function GetAllData();
+ public function SaveData(mysqli $mysqli);
  public function DeleteData(mysqli $mysqli);
 }

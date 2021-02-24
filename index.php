@@ -8,7 +8,7 @@ include 'Controller.php'
 
 <div class="nodes">
 
-    <?getall();?>
+    <?GetAll();?>
 </div>
 </body>
 </div>

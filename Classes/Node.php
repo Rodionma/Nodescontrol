@@ -10,17 +10,17 @@ public $parent_id;
 
 
 
-    public function set($text,$parent_id){
+    public function Set($text, $parent_id){
         $this->parent_id=$parent_id;
         $this->text=$text;
     }//setting data without id
-    public function setwithid($text,$parent_id,$id){
+    public function SetWithId($text, $parent_id, $id){
         $this->parent_id=$parent_id;
         $this->text=$text;
         $this->id=$id;
     }//setting data with id
 
-    public function getallData(){ ?>
+    public function GetAllData(){ ?>
 <div class="node">
        <h2><?echo $this->text;?></h2>
 <button id="add" value="<?echo $this->getId()?>" class="btn btn-success add">+</button>
@@ -30,7 +30,7 @@ public $parent_id;
         <?php
     }//output all data about one node
 
-    public function saveData(mysqli $mysqli){
+    public function SaveData(mysqli $mysqli){
 
     $query="INSERT INTO nodes (text,parent_id) VALUES ('$this->text','$this->parent_id')";
      if($mysqli->query($query)!=true){

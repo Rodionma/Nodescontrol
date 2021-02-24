@@ -1,24 +1,16 @@
-body{
-    padding: 5%;
-}
 
-.node{
-    display: flex;
-    float: left;
-    width: 23.5%;
-    margin-right: 2%;
-}
+
 
 .dialog{
     display: none;
-text-align: center;
+    text-align: center;
     position: fixed;
-   left: 20%;
+    left: 20%;
     right: 20%;
-width: 40%;
+    width: 40%;
     z-index: 1000;
     top: 40%;
-  padding: 2%;
+    padding: 2%;
     background-color: white;
 }
 .overlay{

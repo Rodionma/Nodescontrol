@@ -15,8 +15,6 @@ $mysqli = new mysqli('localhost', 'root', 'root','nodes');
 if (!$mysqli) {
     die('Connection error: ' . mysqli_error());
 }
-
-
 /*
  *
  * routing
@@ -26,16 +24,16 @@ if (!$mysqli) {
 if(isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'create':
-            createroot();
+            createRoot();
             break;
         case 'add':
             add();
             break;
         case 'addform':
-            Context::addcommit($_GET['parent_id']);
+            Context::AddCommit($_GET['parent_id']);
             break;
         case 'deleteform':
-            Context::deletecommit($_GET['parent_id']);
+            Context::DeleteCommit($_GET['parent_id']);
             break;
         case 'delete':
             $id=$_GET['id'];
@@ -45,14 +43,14 @@ if(isset($_GET['action'])) {
 }
 
 
-function getdata(){//getting data from DB
+function GetData(){//getting data from DB
     $nodes=array();
     global $mysqli;
     $result=$mysqli->query("SELECT * FROM nodes ORDER BY parent_id ASC");//query
 
     while ($new=$result->fetch_assoc()) {
         $current_node = new Node();
-        $current_node->setwithid($new['text'], $new['parent_id'], $new['id']);
+        $current_node->SetWithId($new['text'], $new['parent_id'], $new['id']);
         $nodes[] = $current_node;
     }
     if (!empty($nodes)) {
@@ -65,9 +63,9 @@ function getdata(){//getting data from DB
     }
 }
 
-function getall(){
-    $nodes=getdata();
-    if(isset($nodes)){
+function GetAll(){
+    $nodes=GetData();
+    if(isset($nodes)){//Output all data
         foreach ($nodes as $el){
             if($el->getParentId()==0){
                 $el->getallData();
@@ -78,7 +76,7 @@ function getall(){
 
 }
 
-function allchildren($parrentid,$nodes){
+function allchildren($parrentid,$nodes){//outputting data about all children
 
     foreach ($nodes as $res){
 
@@ -86,7 +84,7 @@ function allchildren($parrentid,$nodes){
             echo '<div style="margin-left: 50px; position:relative" >';
             $res->getallData();
 
-            allchildren($res->getID(),$nodes);
+            allchildren($res->getID(),$nodes);//recursive calling
             echo '</div>';
             unset($res);
         }
@@ -97,14 +95,14 @@ function allchildren($parrentid,$nodes){
 
 
 
-function createroot(){
+function createRoot(){//creating node with name "Root"
 
     global $mysqli;
     $node=new Node();
-    $node->set('Root',0);
+    $node->Set('Root',0);
 
-    $node->saveData($mysqli);
-    getall();
+    $node->SaveData($mysqli);
+    GetAll();
 }
 
 
@@ -115,14 +113,14 @@ function add(){//adding new node
     $parrent=$_GET['parent_id'];//getting data
     global $mysqli;
     $node=new Node();
-    $node->set($text,$parrent);
+    $node->Set($text,$parrent);
 
-    $node->saveData($mysqli);//saving data in db
-    getall();
+    $node->SaveData($mysqli);//saving data in db
+    GetAll();
 }
 
 function delete($id){
-    $nodes=getdata();
+    $nodes=GetData();//Getting all nodes
     global $mysqli;
     if(isset($nodes)){
         foreach ($nodes as $res){
@@ -142,7 +140,7 @@ function delete($id){
             }
         }
         unset($nodes);}
-    getall();
+    GetAll();
 }
 
 function deletechildren($nodes,$id){//deleting all children

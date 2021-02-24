@@ -76,7 +76,8 @@ function timer(id) {
         } else {
             clearInterval(int);
             $('.timer').text(20);
-            deleting(id);
+            $('.overlay').css('display','none');
+            $('.dialog').css('display','none');
         }
     }, 1000);
 
